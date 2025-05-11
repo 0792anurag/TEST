@@ -48,6 +48,8 @@
       font-weight: bold;
       margin-top: 20px;
       color: #333;
+      text-align: left;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -62,8 +64,6 @@
 
     <label for="makingCharge">Making Charge (₹ per gram - Optional):</label>
     <input type="number" id="makingCharge" placeholder="e.g. 50" step="0.01" min="0">
-
-    <p><strong>GST: 3% (Fixed)</strong></p>
 
     <button onclick="calculateTotal()">Calculate Total Price</button>
 
@@ -83,11 +83,15 @@
 
       const basePrice = quantity * rate;
       const makingChargeTotal = makingCharge * quantity;
-      const subTotal = basePrice + makingChargeTotal;
-      const gstAmount = subTotal * 0.03;
-      const totalPrice = subTotal + gstAmount;
+      const gst = (basePrice + makingChargeTotal) * 0.03;
+      const totalPrice = basePrice + makingChargeTotal + gst;
 
-      document.getElementById('result').textContent = `Total Price (incl. GST): ₹${totalPrice.toFixed(2)}\nBase Price: ₹${basePrice.toFixed(2)}\nMaking Charge: ₹${makingChargeTotal.toFixed(2)}\nGST (3%): ₹${gstAmount.toFixed(2)}`;
+      document.getElementById('result').innerHTML = `
+        <strong>Total Price (incl. GST): ₹${totalPrice.toFixed(2)}</strong><br>
+        Base Price: ₹${basePrice.toFixed(2)}<br>
+        Making Charge: ₹${makingChargeTotal.toFixed(2)}<br>
+        GST (3%): ₹${gst.toFixed(2)}
+      `;
     }
   </script>
 </body>
